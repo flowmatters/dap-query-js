@@ -12,6 +12,7 @@
       if (typeof module !== 'undefined' && module.exports) {
          module.exports = me;
       }
+
       me.noConflict = function () {
          if (root[name] === me) {
             root[name] = had ? prev : undefined;
@@ -231,12 +232,12 @@
         var header = sections[0];
         var body = sections[1];
 
-        var variables = body.split('\n\n');
+        var variables = body.trim().split('\n\n');
         variables = variables.map(function(v){
           var lines = v.split('\n');
           var headerLine = lines.shift();
           var dimensions = headerLine.split('[');
-          var varName = dimensions.shift().split('.')[1];
+          var varName = dimensions.shift().split('.').pop();
           dimensions = dimensions.map(function(d){return d.slice(0,d.length-1);});
           var data = newLinesAsJSON(lines,dimensions);
           return '"'+varName+'":' + data;
