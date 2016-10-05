@@ -259,6 +259,28 @@
         return parsed;
       };
 
+      me.simplifyVariable = function(variable) {
+        if(Object.prototype.toString.call(variable) === '[object Array]') {
+          if(variable.length===1) {
+            return me.simplifyVariable(variable[0]);
+          } else {
+            return variable.map(function(elem){
+              return me.simplifyVariable(elem);
+            });
+          }
+        } else {
+          return variable;
+        }
+      };
+
+      me.simplify = function(data){
+        var result = {};
+        for(var name in data){
+          result[name] = me.simplifyVariable(data[name]);
+        }
+        return result;
+      };
+
       return me;
    }('dap'));
    // Attach methods to myModule...

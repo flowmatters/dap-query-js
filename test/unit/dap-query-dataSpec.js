@@ -329,6 +329,10 @@ Pg.longitude[5]\n\
     expect(parsed.Pg.length).toBe(1);
     expect(parsed.Pg[0].length).toBe(1);
     expect(parsed.Pg[0][0].length).toBe(51);
+
+    var simplified = module.simplify(parsed);
+    expect(simplified.Pg).toBeDefined();
+    expect(simplified.Pg.length).toBe(51);
   });
 
 
