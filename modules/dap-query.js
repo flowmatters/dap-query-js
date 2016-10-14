@@ -221,7 +221,7 @@
             }
             result += '\n';
           }
-          return '['+result+']';
+          return '['+result.replace(/NaN/g,'null')+']';
         }
       };
 

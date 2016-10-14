@@ -318,6 +318,11 @@ Pg.longitude[5]\n\
     var parsed = JSON.parse(jsonText);
   });
 
+  it('should convert nulls in data queries to json',function(){
+    var jsonText = module.dataToJSON(twoD.replace('27.0','NaN'));
+    var parsed = JSON.parse(jsonText);
+  });
+
   it('should convert 3D data queries to json',function(){
     var jsonText = module.dataToJSON(threeD);
     var parsed = JSON.parse(jsonText);
