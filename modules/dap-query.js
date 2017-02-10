@@ -256,7 +256,24 @@
           });
         }
 
+        if(das){
+          for(var variable in parsed){
+            if(das.variables[variable]&&das.variables[variable]._FillValue){
+              me.replaceValues(parsed[variable],+das.variables[variable]._FillValue,NaN);
+            }
+          }
+        }
         return parsed;
+      };
+
+      me.replaceValues = function(variable,from,to){
+        for(var i in variable){
+          if(variable[i].length){
+            me.replaceValues(variable[i],from,to);
+          } else if(variable[i]===from){
+            variable[i]=to;
+          }
+        }
       };
 
       me.simplifyVariable = function(variable) {
