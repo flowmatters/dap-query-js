@@ -245,7 +245,7 @@
         return '{' + variables.join(',\n') + '}';
       };
 
-      me.parseData = function(text,das) {
+      me.parseData = function(text,das,_fillValues) {
         var parsed = JSON.parse(me.dataToJSON(text));
         if(das && parsed.time && das.variables.time) {
           var epoch = das.variables.time.epoch;
@@ -258,7 +258,9 @@
 
         if(das){
           for(var variable in parsed){
-            if(das.variables[variable]&&das.variables[variable]._FillValue){
+            if(_fillValues!==undefined&&(_fillValues[variable]!==undefined)){
+              me.replaceValues(parsed[variable],_fillValues[variable],NaN);
+            }else if(das.variables[variable]&&das.variables[variable]._FillValue){
               me.replaceValues(parsed[variable],+das.variables[variable]._FillValue,NaN);
             }
           }
