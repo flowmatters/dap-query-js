@@ -270,6 +270,10 @@
 
       me.replaceValues = function(variable,from,to){
         for(var i in variable){
+          if(variable[i]===null){
+            variable[i]=NaN;
+          }
+
           if(variable[i].length){
             me.replaceValues(variable[i],from,to);
           } else if(variable[i]===from){
