@@ -5,6 +5,10 @@
     "name": "Joel Rahman",
     "email": "joel@flowmatters.com.au"
   },
+  "browser":"dist/dap-query.js",
+  "files":[
+    "dist"
+  ],
   "dependencies": {},
   "devDependencies": {
     "chai": "^1.9.1",

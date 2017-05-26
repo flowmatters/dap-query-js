@@ -29,11 +29,13 @@
       var postProcessDataDescription = function(das){
         if(das.variables.time && das.variables.time.units) {
           var time = das.variables.time;
-          if(time.units.indexOf('days since ')===0) {
+          if((time.units.indexOf('days since ')===0)||
+             (time.units.indexOf('seconds since ')===0)){
             var epochText = time.units.substr(11);
             var epochComponents = epochText.split(/[ \-\:]/);
             time.epoch = new Date(epochComponents[0],epochComponents[1]-1,epochComponents[2],
                                   epochComponents[3],epochComponents[4],epochComponents[5]);
+            time.scale=time.units.split(' ')[0];
           }
         }
       };
@@ -250,9 +252,14 @@
         if(das && parsed.time && das.variables.time) {
           var epoch = das.variables.time.epoch;
           parsed.time = parsed.time.map(function(d){
-            var date = new Date(epoch);
-            date.setDate(date.getDate()+d);
-            return date;
+            if(das.variables.time.scale==='days'){
+              var date = new Date(epoch);
+              date.setDate(date.getDate()+d);
+              return date;              
+            } else if(das.variables.time.scale==='seconds'){
+              return new Date(epoch.getTime()+1000.0*d);
+            }
+            return null;
           });
         }
 
