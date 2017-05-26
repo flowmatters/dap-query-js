@@ -31,11 +31,11 @@
           var time = das.variables.time;
           if((time.units.indexOf('days since ')===0)||
              (time.units.indexOf('seconds since ')===0)){
-            var epochText = time.units.substr(11);
+            time.scale=time.units.split(' ')[0];
+            var epochText = time.units.substr(time.scale.length+7);
             var epochComponents = epochText.split(/[ \-\:]/);
             time.epoch = new Date(epochComponents[0],epochComponents[1]-1,epochComponents[2],
                                   epochComponents[3],epochComponents[4],epochComponents[5]);
-            time.scale=time.units.split(' ')[0];
           }
         }
       };
