@@ -255,7 +255,7 @@
             if(das.variables.time.scale==='days'){
               var date = new Date(epoch);
               date.setDate(date.getDate()+d);
-              return date;              
+              return date;
             } else if(das.variables.time.scale==='seconds'){
               return new Date(epoch.getTime()+1000.0*d);
             }
