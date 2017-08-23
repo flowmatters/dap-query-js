@@ -27,6 +27,10 @@ var sourceFiles = [
   path.join(sourceDirectory, '/**/*.js')
 ];
 
+var typeFiles = [
+  path.join(sourceDirectory,'/**/*.d.ts')
+];
+
 var lintFiles = [
   'gulpfile.js',
   // Karma configuration
@@ -41,6 +45,8 @@ gulp.task('build', function() {
     .pipe(uglify())
     .pipe(rename('dap-query.min.js'))
     .pipe(gulp.dest('./dist'));
+  gulp.src(typeFiles)
+    .pipe(gulp.dest('./dist/'));
 });
 
 /**
@@ -56,7 +62,7 @@ gulp.task('process-all', function (done) {
 gulp.task('watch', function () {
 
   // Watch JavaScript files
-  gulp.watch(sourceFiles, ['process-all']);
+  gulp.watch(sourceFiles.concat(typeFiles), ['process-all']);
 });
 
 /**
