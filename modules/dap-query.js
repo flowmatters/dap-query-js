@@ -35,7 +35,7 @@
             var epochText = time.units.substr(time.scale.length+7);
             var epochComponents = epochText.split(/[ \-\:]/);
             time.epoch = new Date(epochComponents[0],epochComponents[1]-1,epochComponents[2],
-                                  epochComponents[3],epochComponents[4],epochComponents[5]);
+                                  epochComponents[3]||null,epochComponents[4]||null,epochComponents[5]||null);
           }
         }
       };
@@ -311,7 +311,37 @@
         return result;
       };
 
+      me.sliceToQuery = function(slice){
+        if(!slice.length){
+          slice = [slice];
+        }
+
+        if(slice.length===1){
+          slice = [slice,slice];
+        }
+
+        if(slice.length===2){
+          slice = [slice[0],1,slice[1]];
+        }
+
+        return '['+slice.join(':')+']';
+      };
+
+      me.makeQuery = function(ddx,variable,params){
+        params = params||{};
+        var variableMetadata = ddx.variables[variable];
+        return variableMetadata.dimensions.map(function(dim){
+          var dimName = dim.name;
+          var slice = params[dimName];
+          if(slice===undefined){
+            slice = [0,(+dim.size)-1];
+          }
+          return me.sliceToQuery(slice);
+        }).join('');
+      };
+
       return me;
+
    }('dap'));
    // Attach methods to myModule...
 }());
