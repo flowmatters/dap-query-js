@@ -42,7 +42,31 @@
 
       me.dasToJSON = function(text){
         text = '{\n'+text+'\n}';
-        var lines = text.split('\n').map(Function.prototype.call,String.prototype.trim);
+        var linesTmp = text.split('\n');
+        var lines = [];
+        var accum;
+        linesTmp.forEach(function(line){
+          var quoteCount = (line.match(/"/g)||[]).length;
+          if(accum){
+            if(quoteCount%2){
+              lines.push(accum+line);
+              accum=undefined;
+            } else {
+              accum += line;
+            }
+          } else {
+            if(quoteCount%2){
+              accum = line;
+            } else {
+              lines.push(line);
+            }
+          }
+        });
+        if(accum){
+          lines.push(accum);
+        }
+
+        lines = lines.map(Function.prototype.call,String.prototype.trim);
         var lastLineInBlock = function(idx){
           if(idx===(lines.length-1)) {
             return true;
@@ -93,6 +117,9 @@
 
           if((dType!=='String')&&(value.indexOf(',')>=0)) {
             value = '[' + value + ']';
+          }
+          if(value==='NaN'){
+            value='null';
           }
           var result = '"'+vName+'":'+value;
           if(!lastLineInBlock(idx)){
