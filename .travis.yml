@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "lts/*"
+  - "8"
+  - "7"
+  - "6"
+before_script:
+  - npm install -g gulp
+  - npm install
+  - gulp process-all
