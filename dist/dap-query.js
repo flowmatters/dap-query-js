@@ -27,17 +27,21 @@
       };
 
       var postProcessDataDescription = function(das){
-        if(das.variables.time && das.variables.time.units) {
-          var time = das.variables.time;
-          if((time.units.indexOf('days since ')===0)||
-             (time.units.indexOf('seconds since ')===0)){
-            time.scale=time.units.split(' ')[0];
-            var epochText = time.units.substr(time.scale.length+7);
-            var epochComponents = epochText.split(/[ \-\:]/);
-            time.epoch = new Date(epochComponents[0],epochComponents[1]-1,epochComponents[2],
-                                  epochComponents[3]||null,epochComponents[4]||null,epochComponents[5]||null);
+        Object.keys(das.variables).forEach(function(v){
+          var variable = das.variables[v];
+          if(!variable.units){
+            return;
           }
-        }
+          if((variable.units.indexOf('days since ')<0)&&
+             (variable.units.indexOf('seconds since ')<0)){
+            return;
+          }
+          variable.scale=variable.units.split(' ')[0];
+          var epochText = variable.units.substr(variable.scale.length+7);
+          var epochComponents = epochText.split(/[ \-\:]/);
+          variable.epoch = new Date(epochComponents[0],epochComponents[1]-1,epochComponents[2],
+                                epochComponents[3]||null,epochComponents[4]||null,epochComponents[5]||null);
+        });
       };
 
       me.dasToJSON = function(text){
