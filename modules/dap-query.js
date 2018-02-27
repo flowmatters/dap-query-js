@@ -280,17 +280,28 @@
 
       me.parseData = function(text,das,_fillValues) {
         var parsed = JSON.parse(me.dataToJSON(text));
-        if(das && parsed.time && das.variables.time) {
-          var epoch = das.variables.time.epoch;
-          parsed.time = parsed.time.map(function(d){
-            if(das.variables.time.scale==='days'){
-              var date = new Date(epoch);
-              date.setDate(date.getDate()+d);
-              return date;
-            } else if(das.variables.time.scale==='seconds'){
-              return new Date(epoch.getTime()+1000.0*d);
+        if(das){
+          Object.keys(parsed).forEach(function(v){
+            if(!das.variables[v]){
+              return;
             }
-            return null;
+
+            var variable = das.variables[v];
+            if(!variable.epoch){
+              return;
+            }
+
+            var epoch = variable.epoch;
+            parsed[v] = parsed[v].map(function(d){
+              if(variable.scale==='days'){
+                var date = new Date(epoch);
+                date.setDate(date.getDate()+d);
+                return date;
+              } else if(variable.scale==='seconds'){
+                return new Date(epoch.getTime()+1000.0*d);
+              }
+              return null;
+            });
           });
         }
 
