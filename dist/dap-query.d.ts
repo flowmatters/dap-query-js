@@ -5,6 +5,7 @@ export function parseDDX(txt:string):DapDDX;
 export function parseData(txt:string,das?:DapDAS,_fillValues?:DapFillMap):DapData;
 export function simplify(data:DapData):DapData;
 export function makeQuery(ddx:DapDDX,variable:string,params?:DimensionSlices):string;
+export function sliceToQuery(slice:DapSlice):string;
 //
 export interface DapDAS{
 	variables:{[key:string]:any};
