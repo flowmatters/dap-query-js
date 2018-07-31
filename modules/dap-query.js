@@ -238,7 +238,7 @@
         if(dimensions.length===1){
           return '['+lines[0]+']';
         } else if(dimensions.length===2){
-          return '['+lines.splice(0,dimensions[0]).map(function(line){
+          return '['+lines.map(function(line){
             var components = line.split(',');
             if(components[0][0]==='[') {
               components.shift();
@@ -248,7 +248,8 @@
         } else {
           var result = '';
           for(var ix = 0; ix<dimensions[0];ix++){
-            result += newLinesAsJSON(lines,dimensions.slice(1));
+            result += newLinesAsJSON(lines.slice(0,dimensions[1]),dimensions.slice(1));
+            lines = lines.slice(dimensions[1]);
             if(ix<(dimensions[0]-1)) {
               result += ',';
             }
@@ -271,7 +272,7 @@
           var headerLine = lines.shift();
           var dimensions = headerLine.split('[');
           var varName = dimensions.shift().split('.').pop();
-          dimensions = dimensions.map(function(d){return d.slice(0,d.length-1);});
+          dimensions = dimensions.map(function(d){return +d.slice(0,d.length-1);});
           var data = newLinesAsJSON(lines,dimensions);
           return '"'+varName+'":' + data;
         });
