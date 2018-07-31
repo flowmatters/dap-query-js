@@ -248,8 +248,8 @@
         } else {
           var result = [];
           for(var ix = 0; ix<dimensions[0];ix++){
-            var entry = newLinesAsJSON(lines.slice(0,dimensions[1]),dimensions.slice(1));
-            lines = lines.slice(dimensions[1]);
+            var entry = newLinesAsJSON(lines.slice(ix,ix+dimensions[1]),dimensions.slice(1));
+            //lines = lines.slice(dimensions[1]);
             if(ix<(dimensions[0]-1)) {
               entry += ',';
             }
