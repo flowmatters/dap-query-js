@@ -246,16 +246,17 @@
             return '['+components.join(',')+']';
           }).join(',\n')+']\n';
         } else {
-          var result = '';
+          var result = [];
           for(var ix = 0; ix<dimensions[0];ix++){
-            result += newLinesAsJSON(lines.slice(0,dimensions[1]),dimensions.slice(1));
+            var entry = newLinesAsJSON(lines.slice(0,dimensions[1]),dimensions.slice(1));
             lines = lines.slice(dimensions[1]);
             if(ix<(dimensions[0]-1)) {
-              result += ',';
+              entry += ',';
             }
-            result += '\n';
+            entry += '\n';
+            result.push(entry);
           }
-          return '['+result.replace(/NaN/g,'null')+']';
+          return '['+result.join('').replace(/NaN/g,'null')+']';
         }
       };
 
