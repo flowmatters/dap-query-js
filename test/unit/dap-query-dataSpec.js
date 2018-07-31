@@ -27,6 +27,7 @@ describe('', function() {
         String long_name "time";\n\
     }\n\
     NC_GLOBAL {\n\
+        String emptyAttr "";\n\
         String creator_name "Water and Landscape Dynamics group";\n\
         String strange_attr "Water and Landscape Dynamics \\"group";\n\
         String creator_url "http://www.wenfo.org/wald/";\n\

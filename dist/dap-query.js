@@ -50,7 +50,7 @@
         var lines = [];
         var accum;
         linesTmp.forEach(function(line){
-          var quoteCount = (line.match(/[^\\]"/g)||[]).length;
+          var quoteCount = (line.replace(/\\"/g,'').match(/"/g)||[]).length;
           if(accum){
             if(quoteCount%2){
               lines.push(accum+line);
