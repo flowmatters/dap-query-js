@@ -201,6 +201,8 @@
 
       me.parseDDX = function(xmlText) {
         var parser = new DOMParser();
+        xmlText = xmlText.replace('<Datasetname','<Dataset name'); // Fix bug with some versions of THREDDS!
+
         var doc = parser.parseFromString(xmlText,'text/xml');
         doc = doc.documentElement;
         var result = {
