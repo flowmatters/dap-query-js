@@ -2,6 +2,7 @@
 export as namespace dap;
 export function parseDAS(txt:string):DapDAS;
 export function parseDDX(txt:string):DapDDX;
+export function parseDDS(txt:string):DapDDX;
 export function parseData(txt:string,das?:DapDAS,_fillValues?:DapFillMap):DapData;
 export function simplify(data:DapData):DapData;
 export function makeQuery(ddx:DapDDX,variable:string,params?:DimensionSlices):string;

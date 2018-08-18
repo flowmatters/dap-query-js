@@ -262,6 +262,48 @@
         }
       };
 
+      me.parseDDS = function(txt){
+        var lines = txt.split('\n').map(function(s){return s.trim();});
+        var result = {
+          variables:{}
+        };
+        var currentVariableName = null;
+
+        var addVariable = function(ln){
+          var components = ln.split(/[ \[=\];]/);
+          var varName = components[1];
+          result.variables[varName] = {
+            dimensions:[]
+          };
+          for(var dim=2;dim<(components.length-1);dim+=2){
+            result.variables[varName].dimensions.push({
+              name:components[dim],
+              size:+components[3]
+            });
+          }
+          return varName;
+        };
+
+        lines.slice(1).forEach(function(ln){
+          if(ln.startsWith('}')){
+            currentVariableName = null;
+            return;
+          }
+
+          if(currentVariableName===null){
+            if(ln.endsWith(';')){
+              currentVariableName = addVariable(ln);
+              return;
+            }
+          }
+
+          if(ln.endsWith(':')){
+            return;
+          }
+        });
+        return result;
+      };
+
       me.dataToJSON = function(text) {
         var result = {};
 
