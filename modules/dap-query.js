@@ -270,7 +270,7 @@
         var currentVariableName = null;
 
         var addVariable = function(ln){
-          var components = ln.split(/[ \[=\];]/);
+          var components = ln.split(/[ \[=\];]+/);
           var varName = components[1];
           result.variables[varName] = {
             dimensions:[]
@@ -278,7 +278,7 @@
           for(var dim=2;dim<(components.length-1);dim+=2){
             result.variables[varName].dimensions.push({
               name:components[dim],
-              size:+components[3]
+              size:+components[dim+1]
             });
           }
           return varName;
