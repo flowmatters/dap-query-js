@@ -407,19 +407,17 @@
       };
 
       me.sliceToQuery = function(slice){
-        if(!slice.length){
-          slice = [slice];
+        var s = (slice instanceof Array)?slice:[slice];
+
+        if(s.length===1){
+          s = [s[0],s[0]];
         }
 
-        if(slice.length===1){
-          slice = [slice,slice];
+        if(s.length===2){
+          s = [s[0],1,s[1]];
         }
 
-        if(slice.length===2){
-          slice = [slice[0],1,slice[1]];
-        }
-
-        return '['+slice.join(':')+']';
+        return '['+s.join(':')+']';
       };
 
       me.makeQuery = function(ddx,variable,params){
