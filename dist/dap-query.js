@@ -62,6 +62,11 @@
             if(quoteCount%2){
               accum = line;
             } else {
+              if(quoteCount>2){
+                line = line
+                  .replace(/"/,'["')
+                  .replace(/"([^"]*)$/, '"]$1');
+              }
               lines.push(line);
             }
           }
@@ -140,7 +145,9 @@
         var result = {
           variables:{}
         };
+
         var json = me.dasToJSON(text);
+
         var data = JSON.parse(json).Attributes;
 
         for(var key in data) {
