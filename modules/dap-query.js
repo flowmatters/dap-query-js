@@ -275,6 +275,7 @@
           variables:{}
         };
         var currentVariableName = null;
+        var nested = false;
 
         var addVariable = function(ln){
           var components = ln.split(/[ \[=\];]+/);
@@ -292,14 +293,23 @@
         };
 
         lines.slice(1).forEach(function(ln){
+          if(ln.endsWith('{')){
+            nested = true;
+            return;
+          }
+
           if(ln.startsWith('}')){
             currentVariableName = null;
+            nested = false;
             return;
           }
 
           if(currentVariableName===null){
             if(ln.endsWith(';')){
               currentVariableName = addVariable(ln);
+              if(!nested){
+                currentVariableName = null;
+              }
               return;
             }
           }
