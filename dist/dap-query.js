@@ -312,11 +312,8 @@
       };
 
       me.dataToJSON = function(text) {
-        var result = {};
-
         var sections = text.split(/\n-+\w*\n/);
-        var header = sections[0];
-        var body = sections[1];
+        var body = sections[sections.length-1];
 
         var variables = body.trim().split('\n\n');
         variables = variables.map(function(v){
