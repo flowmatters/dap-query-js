@@ -325,12 +325,12 @@
         var sections = text.split(/\n-+\w*\n/);
         var body = sections[sections.length-1];
 
-        var variables = body.trim().split('\n\n');
+        var variables = body.trim().split(/\n+(?=[a-zA-Z])/); // not necessarily...
         variables = variables.map(function(v){
-          var lines = v.split('\n');
+          var lines = v.split(/\n+/);
           var headerLine = lines.shift();
           var dimensions = headerLine.split('[');
-          var varName = dimensions.shift().split('.').pop();
+          var varName = dimensions.shift().split('.').pop().trim().replace(',','');
           dimensions = dimensions.map(function(d){return +d.slice(0,d.length-1);});
           var data = newLinesAsJSON(lines,dimensions);
           return '"'+varName+'":' + data;
