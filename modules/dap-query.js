@@ -39,8 +39,9 @@
           variable.scale=variable.units.split(' ')[0];
           var epochText = variable.units.substr(variable.scale.length+7);
           var epochComponents = epochText.split(/[ \-\:]/);
-          variable.epoch = new Date(epochComponents[0],epochComponents[1]-1,epochComponents[2],
-                                epochComponents[3]||null,epochComponents[4]||null,epochComponents[5]||null);
+          variable.epoch = new Date(Date.UTC(+epochComponents[0],+epochComponents[1]-1,+epochComponents[2],
+                                epochComponents[3]||null,epochComponents[4]||null,epochComponents[5]||null));
+          variable.epoch.setUTCFullYear(+epochComponents[0]);
         });
       };
 
@@ -355,7 +356,8 @@
             parsed[v] = parsed[v].map(function(d){
               if(variable.scale==='days'){
                 var date = new Date(epoch);
-                date.setDate(date.getDate()+d);
+                var MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+                date.setTime(date.getTime()+(d*MILLISECONDS_PER_DAY));
                 return date;
               } else if(variable.scale==='seconds'){
                 return new Date(epoch.getTime()+1000.0*d);
