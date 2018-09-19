@@ -266,7 +266,7 @@
             entry += '\n';
             result.push(entry);
           }
-          return '['+result.join('').replace(/NaN/g,'null')+']';
+          return '['+result.join('')+']';
         }
       };
 
@@ -333,7 +333,7 @@
           var dimensions = headerLine.split('[');
           var varName = dimensions.shift().split('.').pop().trim().replace(',','');
           dimensions = dimensions.map(function(d){return +d.slice(0,d.length-1);});
-          var data = newLinesAsJSON(lines,dimensions);
+          var data = newLinesAsJSON(lines,dimensions).replace(/NaN/g,'null');
           return '"'+varName+'":' + data;
         });
         return '{' + variables.join(',\n') + '}';
