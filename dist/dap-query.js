@@ -346,7 +346,6 @@
             if(!das.variables[v]){
               return;
             }
-
             var variable = das.variables[v];
             if(!variable.epoch){
               return;
@@ -374,6 +373,10 @@
             }else if(das.variables[variable]&&das.variables[variable]._FillValue){
               me.replaceValues(parsed[variable],+das.variables[variable]._FillValue,NaN);
             }
+
+            if(das.variables[variable]&&das.variables[variable].scale_factor){
+              me.scaleValues(parsed[variable],+das.variables[variable].scale_factor);
+            }
           }
         }
         return parsed;
@@ -389,6 +392,20 @@
             me.replaceValues(variable[i],from,to);
           } else if(variable[i]===from){
             variable[i]=to;
+          }
+        }
+      };
+
+      me.scaleValues = function(variable,factor){
+        for(var i in variable){
+          if(variable[i]===null){
+            continue;
+          }
+
+          if(variable[i].length){
+            me.scaleValues(variable[i],factor);
+          } else {
+            variable[i]*=factor;
           }
         }
       };
