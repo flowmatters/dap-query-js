@@ -5,7 +5,6 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var path = require('path');
 var plumber = require('gulp-plumber');
-var runSequence = require('run-sequence');
 var jshint = require('gulp-jshint');
 
 /**
@@ -37,7 +36,7 @@ var lintFiles = [
   'karma-*.conf.js'
 ].concat(sourceFiles);
 
-gulp.task('build', function() {
+gulp.task('build', function(done) {
   gulp.src(sourceFiles)
     .pipe(plumber())
     .pipe(concat('dap-query.js'))
@@ -47,13 +46,7 @@ gulp.task('build', function() {
     .pipe(gulp.dest('./dist'));
   gulp.src(typeFiles)
     .pipe(gulp.dest('./dist/'));
-});
-
-/**
- * Process
- */
-gulp.task('process-all', function (done) {
-  runSequence('jshint', 'test-src', 'build', done);
+  done();
 });
 
 /**
@@ -62,7 +55,7 @@ gulp.task('process-all', function (done) {
 gulp.task('watch', function () {
 
   // Watch JavaScript files
-  gulp.watch(sourceFiles.concat(typeFiles), ['process-all']);
+  gulp.watch(sourceFiles.concat(typeFiles), gulp.series('process-all'));
 });
 
 /**
@@ -87,6 +80,11 @@ gulp.task('test-src', function (done) {
 });
 
 /**
+ * Process
+ */
+gulp.task('process-all', gulp.series('jshint', 'test-src', 'build'));
+
+/**
  * Run test once and exit
  */
 gulp.task('test-dist-concatenated', function (done) {
@@ -106,6 +104,4 @@ gulp.task('test-dist-minified', function (done) {
   }, done);
 });
 
-gulp.task('default', function () {
-  runSequence('process-all', 'watch');
-});
+gulp.task('default', gulp.series('process-all', 'watch'));
