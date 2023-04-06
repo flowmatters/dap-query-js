@@ -1,0 +1,13 @@
+name: build-dap-query-js
+on:
+  push:
+  schedule:
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+jobs:
+  verify-build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm install -g gulp
+      - run: npm install
+      - run: gulp process-all
