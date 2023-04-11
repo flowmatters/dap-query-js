@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: npm install -g gulp
+      - run: ls -a
+      - run: pwd
+      - run: cd ..
+      - run: ls -a
+      - run: pwd
+      - run: cd ..
+      - run: ls -a
       - run: pwd
       - run: cd ..
       - run: ls -a
