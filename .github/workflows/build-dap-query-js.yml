@@ -1,4 +1,4 @@
-# name: build-dap-query-js
+name: build-dap-query-js
 on:
   push:
   schedule:
@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 jobs:
   verify-build:
+    - uses: actions/checkout@v2.1.0
     runs-on: ubuntu-latest
     steps:
       - run: npm install -g gulp
