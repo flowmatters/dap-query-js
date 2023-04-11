@@ -2,7 +2,7 @@ name: build-dap-query-js
 on:
   push:
   schedule:
-    - cron: '0 2 * * 0'
+    - cron: '0 2 1 * *'
   workflow_dispatch:
 jobs:
   verify-build:
