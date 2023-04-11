@@ -10,7 +10,7 @@ jobs:
     steps:
       - run: npm install -g gulp
       - run: pwd
-      # - run: cd
+      - run: cd ..
       - run: ls -a
       - run: npm install
       - run: gulp process-all
